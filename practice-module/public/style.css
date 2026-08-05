@@ -1,0 +1,341 @@
+/* ===========================
+   Theme
+=========================== */
+
+:root {
+    --bg: #0f172a;
+    --card: #1e293b;
+    --border: #334155;
+
+    --primary: #22c55e;
+    --danger: #ef4444;
+
+    --text: #f8fafc;
+    --muted: #94a3b8;
+
+    --radius: 18px;
+}
+
+/* ===========================
+   Reset
+=========================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+
+    background: var(--bg);
+
+    color: var(--text);
+
+    font-family: Inter, sans-serif;
+
+    min-height: 100vh;
+
+}
+
+/* ===========================
+   Container
+=========================== */
+
+.container {
+
+    width: min(900px, 92%);
+
+    margin: 40px auto;
+
+}
+
+/* ===========================
+   Heading
+=========================== */
+
+h1 {
+
+    text-align: center;
+
+    font-family: Poppins, sans-serif;
+
+    font-size: 40px;
+
+    margin-bottom: 30px;
+
+}
+
+/* ===========================
+   Cards
+=========================== */
+
+.card {
+
+    background: var(--card);
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius);
+
+    padding: 24px;
+
+    margin-bottom: 22px;
+
+    box-shadow: 0 15px 40px rgba(0,0,0,.25);
+
+}
+
+/* ===========================
+   Labels
+=========================== */
+
+.label {
+
+    color: var(--muted);
+
+    font-size: 13px;
+
+    margin-bottom: 12px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1px;
+
+}
+
+/* ===========================
+   Word
+=========================== */
+
+#currentWord{
+
+    font-size:42px;
+
+    font-family:Poppins,sans-serif;
+
+    color:var(--primary);
+
+}
+
+/* ===========================
+   Sentence
+=========================== */
+
+#currentSentence{
+
+    font-size:26px;
+
+    line-height:1.8;
+
+}
+
+/* ===========================
+   Progress
+=========================== */
+
+.progress-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    margin-bottom:15px;
+
+}
+
+.progress-bar{
+
+    height:12px;
+
+    background:#0f172a;
+
+    border-radius:50px;
+
+    overflow:hidden;
+
+}
+
+.progress-fill{
+
+    height:100%;
+
+    width:0;
+
+    background:var(--primary);
+
+    transition:.4s;
+
+}
+
+/* ===========================
+   Textarea
+=========================== */
+
+textarea{
+
+    width:100%;
+
+    margin-top:15px;
+
+    padding:18px;
+
+    background:#0f172a;
+
+    color:white;
+
+    border:2px solid var(--border);
+
+    border-radius:14px;
+
+    resize:none;
+
+    font-size:20px;
+
+    font-family:"JetBrains Mono", monospace;
+
+    outline:none;
+
+    transition:.25s;
+
+}
+
+textarea:focus{
+
+    border-color:#38bdf8;
+
+}
+
+/* ===========================
+   States
+=========================== */
+
+.correct{
+
+    border-color:var(--primary)!important;
+
+    box-shadow:0 0 20px rgba(34,197,94,.35);
+
+}
+
+.wrong{
+
+    border-color:var(--danger)!important;
+
+}
+
+/* ===========================
+   Status
+=========================== */
+
+#status{
+
+    margin-top:14px;
+
+    font-weight:600;
+
+    height:24px;
+
+}
+
+/* ===========================
+   Jump Section
+=========================== */
+
+.jump-grid{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:20px;
+
+}
+
+.jump-grid input{
+
+    width:100%;
+
+    padding:12px;
+
+    margin-top:10px;
+
+    margin-bottom:10px;
+
+    border-radius:10px;
+
+    border:none;
+
+    background:#0f172a;
+
+    color:white;
+
+}
+
+button{
+
+    width:100%;
+
+    padding:12px;
+
+    border:none;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    background:var(--primary);
+
+    color:white;
+
+    font-weight:600;
+
+    transition:.2s;
+
+}
+
+button:hover{
+
+    transform:translateY(-2px);
+
+}
+
+.reset-btn{
+
+    background:#dc2626;
+
+    margin-bottom:50px;
+
+}
+
+/* ===========================
+   Mobile
+=========================== */
+
+@media(max-width:700px){
+
+    .jump-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+    h1{
+
+        font-size:30px;
+
+    }
+
+    #currentWord{
+
+        font-size:34px;
+
+    }
+
+    #currentSentence{
+
+        font-size:22px;
+
+    }
+
+}

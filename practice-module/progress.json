@@ -1,0 +1,110 @@
+{
+    "_meta": {
+        "currentIndex": 21
+    },
+    "actually": {
+        "completed": true,
+        "count": 1,
+        "lastPracticed": "2026-08-05T13:15:27.871Z"
+    },
+    "approach": {
+        "completed": true,
+        "count": 1,
+        "lastPracticed": "2026-08-05T13:15:42.065Z"
+    },
+    "spelling": {
+        "completed": true,
+        "count": 1,
+        "lastPracticed": "2026-08-05T13:15:52.247Z"
+    },
+    "intentionally": {
+        "completed": true,
+        "count": 1,
+        "lastPracticed": "2026-08-05T13:16:04.975Z"
+    },
+    "software": {
+        "completed": true,
+        "count": 1,
+        "lastPracticed": "2026-08-05T13:16:17.651Z"
+    },
+    "engineering": {
+        "completed": true,
+        "count": 1,
+        "lastPracticed": "2026-08-05T13:16:36.095Z"
+    },
+    "instead": {
+        "completed": true,
+        "count": 1,
+        "lastPracticed": "2026-08-05T13:17:17.092Z"
+    },
+    "naturally": {
+        "completed": true,
+        "count": 1,
+        "lastPracticed": "2026-08-05T13:17:34.583Z"
+    },
+    "include": {
+        "completed": true,
+        "count": 1,
+        "lastPracticed": "2026-08-05T13:17:46.669Z"
+    },
+    "reconciliation": {
+        "completed": true,
+        "count": 1,
+        "lastPracticed": "2026-08-05T13:18:21.125Z"
+    },
+    "hydration": {
+        "completed": true,
+        "count": 1,
+        "lastPracticed": "2026-08-05T13:18:35.059Z"
+    },
+    "virtualization": {
+        "completed": true,
+        "count": 1,
+        "lastPracticed": "2026-08-05T13:18:59.750Z"
+    },
+    "serialization": {
+        "completed": true,
+        "count": 1,
+        "lastPracticed": "2026-08-05T13:19:20.974Z"
+    },
+    "synchronization": {
+        "completed": true,
+        "count": 1,
+        "lastPracticed": "2026-08-05T13:19:36.669Z"
+    },
+    "encapsulation": {
+        "completed": true,
+        "count": 1,
+        "lastPracticed": "2026-08-05T13:19:51.702Z"
+    },
+    "abstraction": {
+        "completed": true,
+        "count": 1,
+        "lastPracticed": "2026-08-05T13:20:07.446Z"
+    },
+    "immutability": {
+        "completed": true,
+        "count": 1,
+        "lastPracticed": "2026-08-05T13:20:20.651Z"
+    },
+    "interoperability": {
+        "completed": true,
+        "count": 1,
+        "lastPracticed": "2026-08-05T13:20:48.261Z"
+    },
+    "optimization": {
+        "completed": true,
+        "count": 1,
+        "lastPracticed": "2026-08-05T13:21:02.018Z"
+    },
+    "memoization": {
+        "completed": true,
+        "count": 1,
+        "lastPracticed": "2026-08-05T13:21:21.362Z"
+    },
+    "dependency": {
+        "completed": true,
+        "count": 1,
+        "lastPracticed": "2026-08-05T13:21:33.949Z"
+    }
+}

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>English Sentence Practice</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Poppins:wght@500;600;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>English Sentence Practice</h1>
+
+        <!-- Progress -->
+
+        <section class="card">
+
+            <div class="progress-header">
+
+                <span id="progressText">
+                    0 / 0 Practiced
+                </span>
+
+                <span id="wordNumber">
+                    Word #1
+                </span>
+
+            </div>
+
+            <div class="progress-bar">
+
+                <div
+                    id="progressFill"
+                    class="progress-fill">
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- Current Word -->
+
+        <section class="card">
+
+            <p class="label">
+                Word
+            </p>
+
+            <h2 id="currentWord">
+                Loading...
+            </h2>
+
+        </section>
+
+        <!-- Sentence -->
+
+        <section class="card">
+
+            <p class="label">
+                Sentence
+            </p>
+
+            <p id="currentSentence">
+                Loading...
+            </p>
+
+        </section>
+
+        <!-- Typing -->
+
+        <section class="card">
+
+            <p class="label">
+                Type the sentence exactly
+            </p>
+
+            <textarea
+                id="typingInput"
+                rows="4"
+                autocomplete="off"
+                spellcheck="false"></textarea>
+
+            <p id="status"></p>
+
+        </section>
+
+        <!-- Jump -->
+
+        <section class="card jump-grid">
+
+            <div>
+
+                <label>Jump by Number</label>
+
+                <input
+                    id="jumpNumber"
+                    type="number">
+
+                <button id="jumpNumberBtn">
+                    Go
+                </button>
+
+            </div>
+
+            <div>
+
+                <label>Jump by Word</label>
+
+                <input
+                    id="jumpWord"
+                    type="text">
+
+                <button id="jumpWordBtn">
+                    Go
+                </button>
+
+            </div>
+
+        </section>
+
+        <button
+            id="resetBtn"
+            class="reset-btn">
+            Reset Progress
+        </button>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
