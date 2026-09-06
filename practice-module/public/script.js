@@ -1,7 +1,17 @@
-let wordsData = {};
-let progressData = {};
+
+// ================================
+// State
+// ================================
+
 let words = [];
+let progress = {};
 let currentIndex = 0;
+let isSaving = false;
+
+
+// ================================
+// DOM
+// ================================
 
 const currentWord = document.getElementById("currentWord");
 const currentSentence = document.getElementById("currentSentence");
@@ -15,15 +25,20 @@ const wordNumber = document.getElementById("wordNumber");
 const jumpNumber = document.getElementById("jumpNumber");
 const jumpWord = document.getElementById("jumpWord");
 
+const jumpNumberBtn = document.getElementById("jumpNumberBtn");
+const jumpWordBtn = document.getElementById("jumpWordBtn");
+
 const resetBtn = document.getElementById("resetBtn");
 
 
-/* =========================================================
-   INITIAL LOAD
-========================================================= */
+// ================================
+// Load Words + User Progress
+// ================================
 
-async function initialize() {
+async function loadData() {
+
     try {
+
         const [wordsResponse, progressResponse] = await Promise.all([
             fetch("/api/words", {
                 credentials: "include"
@@ -34,37 +49,53 @@ async function initialize() {
             })
         ]);
 
-        // User is not authenticated
-        if (wordsResponse.status === 401 || progressResponse.status === 401) {
+
+        // Authentication expired / missing
+        if (
+            wordsResponse.status === 401 ||
+            progressResponse.status === 401
+        ) {
             window.location.href = "/login.html";
             return;
         }
 
-        if (!wordsResponse.ok || !progressResponse.ok) {
-            throw new Error("Failed to load practice data.");
+
+        if (!wordsResponse.ok) {
+            throw new Error("Failed to load words.");
         }
 
-        wordsData = await wordsResponse.json();
-        progressData = await progressResponse.json();
+        if (!progressResponse.ok) {
+            throw new Error("Failed to load progress.");
+        }
+
+
+        const wordsData = await wordsResponse.json();
+
+        progress = await progressResponse.json();
 
         words = Object.entries(wordsData);
 
+
+        // Resume from user's saved position
         currentIndex =
-            progressData._meta?.currentIndex || 0;
+            progress._meta?.currentIndex || 0;
 
-        // Prevent invalid index
-        if (currentIndex >= words.length) {
-            currentIndex = words.length - 1;
-        }
 
+        // Protect against invalid index
         if (currentIndex < 0) {
             currentIndex = 0;
         }
 
+        if (currentIndex >= words.length) {
+            currentIndex = words.length - 1;
+        }
+
+
         renderWord();
 
     } catch (error) {
-        console.error(error);
+
+        console.error("Load error:", error);
 
         status.textContent =
             "Unable to load practice data. Please refresh the page.";
@@ -72,97 +103,147 @@ async function initialize() {
 }
 
 
-/* =========================================================
-   RENDER CURRENT WORD
-========================================================= */
+// ================================
+// Render Current Word
+// ================================
 
 function renderWord() {
 
     if (!words.length) {
-        currentWord.textContent = "No words available";
-        currentSentence.textContent = "";
         return;
     }
 
+
     const [word, sentence] = words[currentIndex];
 
+
     currentWord.textContent = word;
+
     currentSentence.textContent = sentence;
 
-    wordNumber.textContent =
-        `Word ${currentIndex + 1} of ${words.length}`;
 
+    wordNumber.textContent =
+        `Word #${currentIndex + 1} / ${words.length}`;
+
+
+    // Reset typing box
     typingInput.value = "";
-    typingInput.focus();
+
+    typingInput.classList.remove("correct");
+    typingInput.classList.remove("wrong");
+
 
     status.textContent = "";
+
+
+    typingInput.focus();
+
 
     updateProgressBar();
 }
 
 
-/* =========================================================
-   PROGRESS BAR
-========================================================= */
+// ================================
+// Progress Bar
+// ================================
 
 function updateProgressBar() {
 
-    const completedWords = Object.keys(progressData)
-        .filter(key => key !== "_meta")
-        .length;
+    const completed =
+        Object.keys(progress)
+            .filter(key => key !== "_meta")
+            .length;
 
-    const totalWords = words.length;
 
     progressText.textContent =
-        `${completedWords} / ${totalWords} words completed`;
+        `${completed} / ${words.length} Practiced`;
 
-    const percentage =
-        totalWords === 0
+
+    const percent =
+        words.length === 0
             ? 0
-            : (completedWords / totalWords) * 100;
+            : (completed / words.length) * 100;
 
-    progressFill.style.width = `${percentage}%`;
+
+    progressFill.style.width =
+        `${percent}%`;
 }
 
 
-/* =========================================================
-   TYPING
-========================================================= */
+// ================================
+// Typing Validation
+// ================================
 
-typingInput.addEventListener("input", () => {
+function checkTyping() {
 
-    const typedText = typingInput.value;
+    const typed = typingInput.value;
 
-    const [, sentence] = words[currentIndex];
+    const expected =
+        words[currentIndex][1];
 
-    if (typedText === sentence) {
-        status.textContent = "✓ Correct!";
+
+    // Remove previous states
+    typingInput.classList.remove("correct");
+    typingInput.classList.remove("wrong");
+
+    status.textContent = "";
+
+
+    // Empty input
+    if (typed.length === 0) {
+        return;
+    }
+
+
+    // Wrong character typed
+    if (!expected.startsWith(typed)) {
+
+        typingInput.classList.add("wrong");
+
+        status.textContent =
+            "❌ Typing mistake";
+
+        return;
+    }
+
+
+    // Correct sentence completed
+    if (typed.trim() === expected.trim()) {
+
+        typingInput.classList.add("correct");
+
+        status.textContent =
+            "✅ Correct";
+
 
         saveProgress();
     }
-});
+}
 
 
-/* =========================================================
-   SAVE PROGRESS
-========================================================= */
+// ================================
+// Save Progress
+// ================================
 
 async function saveProgress() {
 
-    const [word] = words[currentIndex];
-
-    // Prevent saving the same word multiple times
-    // while user remains on the same word.
-    if (
-        progressData[word] &&
-        progressData[word].lastSavedIndex === currentIndex
-    ) {
+    // Prevent duplicate requests
+    if (isSaving) {
         return;
     }
+
+
+    isSaving = true;
+
+
+    const word =
+        words[currentIndex][0];
+
 
     try {
 
         const response = await fetch("/api/progress", {
+
             method: "POST",
 
             headers: {
@@ -175,186 +256,244 @@ async function saveProgress() {
                 word,
                 currentIndex: currentIndex + 1
             })
+
         });
 
+
+        // Session expired
         if (response.status === 401) {
+
             window.location.href = "/login.html";
+
             return;
         }
+
 
         if (!response.ok) {
             throw new Error("Failed to save progress.");
         }
 
-        /*
-         * Update local progress immediately.
-         * This avoids another API request after every word.
-         */
 
-        if (!progressData[word]) {
-            progressData[word] = {
+        // Update local progress
+        if (!progress[word]) {
+
+            progress[word] = {
                 completed: true,
                 count: 0,
                 lastPracticed: null
             };
         }
 
-        progressData[word].completed = true;
-        progressData[word].count += 1;
-        progressData[word].lastPracticed =
+
+        progress[word].completed = true;
+
+        progress[word].count =
+            (progress[word].count || 0) + 1;
+
+        progress[word].lastPracticed =
             new Date().toISOString();
 
-        progressData._meta = {
+
+        progress._meta = {
             currentIndex: currentIndex + 1
         };
 
-        progressData[word].lastSavedIndex = currentIndex;
 
         updateProgressBar();
 
-        /*
-         * Move to next word
-         */
 
-        if (currentIndex < words.length - 1) {
+        // Small delay so user can see green border
+        setTimeout(() => {
 
-            currentIndex++;
+            goToNextWord();
 
-            renderWord();
+            isSaving = false;
 
-        } else {
+        }, 600);
 
-            status.textContent =
-                "🎉 You completed all words!";
-        }
 
     } catch (error) {
 
-        console.error(error);
+        console.error("Save progress error:", error);
 
         status.textContent =
             "Failed to save progress. Please try again.";
+
+        isSaving = false;
     }
 }
 
 
-/* =========================================================
-   JUMP BY NUMBER
-========================================================= */
+// ================================
+// Next Word
+// ================================
 
-jumpNumber.addEventListener("change", () => {
+function goToNextWord() {
 
-    const number = Number(jumpNumber.value);
+    currentIndex++;
+
+
+    if (currentIndex >= words.length) {
+
+        // Start again from Word #1
+        currentIndex = 0;
+    }
+
+
+    renderWord();
+}
+
+
+// ================================
+// Jump By Number
+// ================================
+
+function jumpByNumber() {
+
+    const index =
+        Number(jumpNumber.value) - 1;
+
 
     if (
-        Number.isNaN(number) ||
-        number < 1 ||
-        number > words.length
+        index < 0 ||
+        index >= words.length
     ) {
+
+        alert("Invalid word number");
+
         return;
     }
 
-    currentIndex = number - 1;
+
+    currentIndex = index;
 
     renderWord();
 
     jumpNumber.value = "";
-});
+}
 
 
-/* =========================================================
-   JUMP BY WORD
-========================================================= */
+// ================================
+// Jump By Word
+// ================================
 
-jumpWord.addEventListener("change", () => {
+function jumpByWord() {
 
-    const searchWord =
-        jumpWord.value.trim().toLowerCase();
+    const search =
+        jumpWord.value
+            .trim()
+            .toLowerCase();
 
-    if (!searchWord) {
-        return;
-    }
 
-    const index = words.findIndex(([word]) =>
-        word.toLowerCase() === searchWord
-    );
+    const index =
+        words.findIndex(([word]) =>
+            word.toLowerCase() === search
+        );
+
 
     if (index === -1) {
 
-        status.textContent =
-            "Word not found.";
+        alert("Word not found");
 
         return;
     }
+
 
     currentIndex = index;
 
     renderWord();
 
     jumpWord.value = "";
-});
+}
 
 
-/* =========================================================
-   RESET PROGRESS
-========================================================= */
+// ================================
+// Reset Progress
+// ================================
 
-resetBtn.addEventListener("click", async () => {
+async function resetProgress() {
 
-    const confirmed = confirm(
-        "Are you sure you want to reset your progress?"
-    );
-
-    if (!confirmed) {
+    if (!confirm("Reset all progress?")) {
         return;
     }
+
 
     try {
 
         const response = await fetch("/api/reset", {
+
             method: "POST",
 
             credentials: "include"
         });
 
+
         if (response.status === 401) {
+
             window.location.href = "/login.html";
+
             return;
         }
+
 
         if (!response.ok) {
             throw new Error("Failed to reset progress.");
         }
 
-        /*
-         * Reset only the current user's local progress.
-         */
 
-        progressData = {
+        // Reset local state
+        progress = {
             _meta: {
                 currentIndex: 0
             }
         };
 
+
         currentIndex = 0;
+
 
         renderWord();
 
-        status.textContent =
-            "Progress reset successfully.";
-
     } catch (error) {
 
-        console.error(error);
+        console.error("Reset error:", error);
 
         status.textContent =
             "Failed to reset progress.";
     }
-});
+}
 
 
-/* =========================================================
-   START APPLICATION
-========================================================= */
+// ================================
+// Event Listeners
+// ================================
 
-initialize();
+typingInput.addEventListener(
+    "input",
+    checkTyping
+);
+
+
+jumpNumberBtn.addEventListener(
+    "click",
+    jumpByNumber
+);
+
+
+jumpWordBtn.addEventListener(
+    "click",
+    jumpByWord
+);
+
+
+resetBtn.addEventListener(
+    "click",
+    resetProgress
+);
+
+
+// ================================
+// Start
+// ================================
+
+loadData();
