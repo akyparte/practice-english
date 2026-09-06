@@ -27,7 +27,7 @@ if (!JWT_SECRET) {
 |--------------------------------------------------------------------------
 */
 
-const WORDS_FILE = path.join(__dirname, "words.json");
+const WORDS_FILE = path.join(__dirname, "../words.json");
 const PUBLIC_FOLDER = path.join(__dirname, "public");
 
 /*
