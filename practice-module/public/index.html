@@ -17,10 +17,21 @@
     <div class="container">
       <!-- Header -->
       <div class="user-header">
-        <div><span id="userName"></span> <span id="userEmail"></span></div>
-        <button id="logoutBtn" type="button">Logout</button>
+        <div class="user-info">
+          <span id="userName"></span>
+          <span id="userEmail"></span>
+        </div>
+        <button id="logoutBtn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+            <polyline points="16 17 21 12 16 7"/>
+            <line x1="21" y1="12" x2="9" y2="12"/>
+          </svg>
+          Logout
+        </button>
       </div>
       <h1>English Sentence Practice</h1>
+      <p class="tagline">Type each sentence exactly to build muscle memory</p>
       <!-- Progress -->
       <section class="card">
         <div class="progress-header">
@@ -49,6 +60,7 @@
           rows="4"
           autocomplete="off"
           spellcheck="false"
+          placeholder="Start typing here..."
         ></textarea>
         <p id="status"></p>
       </section>
@@ -60,12 +72,13 @@
           <button id="jumpNumberBtn">Go</button>
         </div>
         <div>
-          <label> Jump by Word </label> <input id="jumpWord" type="text" />
+          <label> Jump by Word </label>
+          <input id="jumpWord" type="text" />
           <button id="jumpWordBtn">Go</button>
         </div>
       </section>
       <!-- Reset -->
-      <button id="resetBtn" class="reset-btn">Reset Progress</button>
+      <button id="resetBtn" class="reset-btn btn-block">Reset Progress</button>
     </div>
     <!-- Authentication -->
     <script>
