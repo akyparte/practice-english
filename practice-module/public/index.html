@@ -1,145 +1,205 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>English Sentence Practice</title>
+    <title>English Practice</title>
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Poppins:wght@500;600;700&display=swap"
-        rel="stylesheet">
-
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/style.css">
 </head>
 
 <body>
 
     <div class="container">
 
-        <h1>English Sentence Practice</h1>
+        <!-- =========================
+             USER HEADER
+        ========================== -->
 
-        <!-- Progress -->
+        <div class="user-header">
 
-        <section class="card">
+            <div>
+                <strong id="userName">Loading...</strong>
+                <div id="userEmail"></div>
+            </div>
+
+            <button id="logoutBtn" type="button">
+                Logout
+            </button>
+
+        </div>
+
+
+        <!-- =========================
+             PROGRESS
+        ========================== -->
+
+        <div class="progress-section">
 
             <div class="progress-header">
 
                 <span id="progressText">
-                    0 / 0 Practiced
+                    0 / 0 words completed
                 </span>
 
                 <span id="wordNumber">
-                    Word #1
+                    Word 1 of 0
                 </span>
 
             </div>
 
             <div class="progress-bar">
-
                 <div
                     id="progressFill"
-                    class="progress-fill">
-                </div>
-
+                    class="progress-fill"
+                ></div>
             </div>
 
-        </section>
+        </div>
 
-        <!-- Current Word -->
 
-        <section class="card">
+        <!-- =========================
+             WORD
+        ========================== -->
 
-            <p class="label">
-                Word
-            </p>
+        <div class="word-section">
 
-            <h2 id="currentWord">
+            <h1 id="currentWord">
                 Loading...
-            </h2>
-
-        </section>
-
-        <!-- Sentence -->
-
-        <section class="card">
-
-            <p class="label">
-                Sentence
-            </p>
+            </h1>
 
             <p id="currentSentence">
-                Loading...
+                Loading sentence...
             </p>
 
-        </section>
+        </div>
 
-        <!-- Typing -->
 
-        <section class="card">
+        <!-- =========================
+             TYPING
+        ========================== -->
 
-            <p class="label">
-                Type the sentence exactly
-            </p>
+        <div class="typing-section">
 
-            <textarea
+            <input
+                type="text"
                 id="typingInput"
-                rows="4"
+                placeholder="Type the sentence..."
                 autocomplete="off"
-                spellcheck="false"></textarea>
+                spellcheck="false"
+            >
 
-            <p id="status"></p>
+            <div id="status"></div>
 
-        </section>
+        </div>
 
-        <!-- Jump -->
 
-        <section class="card jump-grid">
+        <!-- =========================
+             JUMP
+        ========================== -->
 
-            <div>
+        <div class="jump-section">
 
-                <label>Jump by Number</label>
+            <input
+                type="number"
+                id="jumpNumber"
+                placeholder="Word number"
+                min="1"
+            >
 
-                <input
-                    id="jumpNumber"
-                    type="number">
+            <input
+                type="text"
+                id="jumpWord"
+                placeholder="Jump to word"
+            >
 
-                <button id="jumpNumberBtn">
-                    Go
-                </button>
+        </div>
 
-            </div>
 
-            <div>
-
-                <label>Jump by Word</label>
-
-                <input
-                    id="jumpWord"
-                    type="text">
-
-                <button id="jumpWordBtn">
-                    Go
-                </button>
-
-            </div>
-
-        </section>
+        <!-- =========================
+             RESET
+        ========================== -->
 
         <button
             id="resetBtn"
-            class="reset-btn">
+            type="button"
+        >
             Reset Progress
         </button>
 
     </div>
 
-    <script src="script.js"></script>
+
+    <!-- =========================
+         USER / LOGOUT SCRIPT
+    ========================== -->
+
+    <script>
+
+        async function loadCurrentUser() {
+
+            try {
+
+                const response = await fetch("/api/auth/me", {
+                    credentials: "include"
+                });
+
+                if (response.status === 401) {
+                    window.location.href = "/login.html";
+                    return;
+                }
+
+                if (!response.ok) {
+                    throw new Error("Failed to load user.");
+                }
+
+                const user = await response.json();
+
+                document.getElementById("userName").textContent =
+                    user.full_name;
+
+                document.getElementById("userEmail").textContent =
+                    user.email;
+
+            } catch (error) {
+
+                console.error(error);
+
+                window.location.href = "/login.html";
+            }
+        }
+
+
+        document
+            .getElementById("logoutBtn")
+            .addEventListener("click", async () => {
+
+                try {
+
+                    await fetch("/api/auth/logout", {
+                        method: "POST",
+                        credentials: "include"
+                    });
+
+                } catch (error) {
+
+                    console.error(error);
+
+                } finally {
+
+                    window.location.href = "/login.html";
+                }
+            });
+
+
+        loadCurrentUser();
+
+    </script>
+
+    <script src="/script.js"></script>
 
 </body>
-
 </html>
+```

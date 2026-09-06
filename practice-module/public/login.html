@@ -1,0 +1,1223 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>English Sentence Practice</title>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+
+            min-height: 100vh;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 20px;
+
+            background:
+                radial-gradient(
+                    circle at top left,
+                    #263555 0,
+                    transparent 35%
+                ),
+                #111827;
+
+            color: #f3f4f6;
+
+            font-family: "Inter", sans-serif;
+        }
+
+        .card {
+            width: 100%;
+
+            max-width: 460px;
+
+            padding: 32px;
+
+            background: #1b2436;
+
+            border: 1px solid #293550;
+
+            border-radius: 18px;
+
+            box-shadow:
+                0 25px 60px rgba(0, 0, 0, 0.35);
+        }
+
+        .logo {
+            text-align: center;
+
+            margin-bottom: 28px;
+        }
+
+        .logo h1 {
+            margin: 0;
+
+            font-family: "Baloo 2", sans-serif;
+
+            font-size: 32px;
+
+            line-height: 1;
+
+            color: #34d399;
+        }
+
+        .logo p {
+            margin: 8px 0 0;
+
+            color: #8f9ab0;
+
+            font-size: 14px;
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Tabs
+        |--------------------------------------------------------------------------
+        */
+
+        .tabs {
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            padding: 4px;
+
+            margin-bottom: 28px;
+
+            background: #131b2e;
+
+            border-radius: 10px;
+        }
+
+        .tab {
+            padding: 10px;
+
+            border: 0;
+
+            border-radius: 8px;
+
+            background: transparent;
+
+            color: #8792a8;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+        }
+
+        .tab.active {
+            background: #26324b;
+
+            color: #ffffff;
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Forms
+        |--------------------------------------------------------------------------
+        */
+
+        form {
+            display: none;
+        }
+
+        form.active {
+            display: block;
+        }
+
+        .field {
+            margin-bottom: 18px;
+        }
+
+        .field label {
+            display: block;
+
+            margin-bottom: 8px;
+
+            color: #aeb7c8;
+
+            font-size: 13px;
+
+            font-weight: 600;
+        }
+
+        .input-shell {
+            position: relative;
+        }
+
+        .input-shell svg {
+            position: absolute;
+
+            left: 14px;
+
+            top: 50%;
+
+            width: 18px;
+
+            height: 18px;
+
+            transform: translateY(-50%);
+
+            color: #68758d;
+
+            pointer-events: none;
+        }
+
+        .input-shell input {
+            width: 100%;
+
+            padding:
+                13px
+                14px
+                13px
+                42px;
+
+            border:
+                1px solid
+                #303d59;
+
+            border-radius: 10px;
+
+            outline: none;
+
+            background: #131b2e;
+
+            color: #ffffff;
+
+            font-family: inherit;
+
+            font-size: 14px;
+
+            transition: border-color 0.2s;
+        }
+
+        .input-shell input::placeholder {
+            color: #58647a;
+        }
+
+        .input-shell input:focus {
+            border-color: #34d399;
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Login options
+        |--------------------------------------------------------------------------
+        */
+
+        .login-options {
+            display: flex;
+
+            justify-content: flex-end;
+
+            margin-top: -4px;
+
+            margin-bottom: 22px;
+        }
+
+        .link {
+            color: #34d399;
+
+            text-decoration: none;
+
+            font-size: 13px;
+
+            font-weight: 600;
+        }
+
+        .link:hover {
+            text-decoration: underline;
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Checkbox
+        |--------------------------------------------------------------------------
+        */
+
+        .checkbox-row {
+            display: flex;
+
+            align-items: flex-start;
+
+            gap: 8px;
+
+            margin-bottom: 20px;
+
+            color: #8f9ab0;
+
+            font-size: 12px;
+
+            line-height: 1.5;
+
+            cursor: pointer;
+        }
+
+        .checkbox-row input {
+            margin-top: 2px;
+
+            accent-color: #34d399;
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Submit button
+        |--------------------------------------------------------------------------
+        */
+
+        .submit-btn {
+            width: 100%;
+
+            padding: 13px;
+
+            border: 0;
+
+            border-radius: 10px;
+
+            background: #34d399;
+
+            color: #0d1a14;
+
+            font-family: inherit;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition:
+                transform 0.15s,
+                opacity 0.15s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+
+            cursor: not-allowed;
+
+            transform: none;
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Message
+        |--------------------------------------------------------------------------
+        */
+
+        .auth-message {
+            display: none;
+
+            margin-bottom: 18px;
+
+            padding: 11px 13px;
+
+            border-radius: 9px;
+
+            font-size: 13px;
+
+            line-height: 1.4;
+        }
+
+        .auth-message.error {
+            display: block;
+
+            background: rgba(244, 113, 116, 0.12);
+
+            border: 1px solid rgba(244, 113, 116, 0.2);
+
+            color: #f47174;
+        }
+
+        .auth-message.success {
+            display: block;
+
+            background: rgba(52, 211, 153, 0.12);
+
+            border: 1px solid rgba(52, 211, 153, 0.2);
+
+            color: #34d399;
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Password requirements
+        |--------------------------------------------------------------------------
+        */
+
+        .password-help {
+            margin-top: 7px;
+
+            color: #68758d;
+
+            font-size: 11px;
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Mobile
+        |--------------------------------------------------------------------------
+        */
+
+        @media (max-width: 500px) {
+
+            .card {
+                padding: 24px;
+            }
+
+            .logo h1 {
+                font-size: 28px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="card">
+
+
+    <!--
+    |--------------------------------------------------------------------------
+    | Logo
+    |--------------------------------------------------------------------------
+    -->
+
+    <div class="logo">
+
+        <h1>
+            English Practice
+        </h1>
+
+        <p>
+            Improve your English one sentence at a time.
+        </p>
+
+    </div>
+
+
+    <!--
+    |--------------------------------------------------------------------------
+    | Tabs
+    |--------------------------------------------------------------------------
+    -->
+
+    <div class="tabs">
+
+        <button
+            type="button"
+            id="loginTab"
+            class="tab active"
+        >
+            Sign In
+        </button>
+
+        <button
+            type="button"
+            id="signupTab"
+            class="tab"
+        >
+            Create Account
+        </button>
+
+    </div>
+
+
+    <!--
+    |--------------------------------------------------------------------------
+    | Message
+    |--------------------------------------------------------------------------
+    -->
+
+    <div
+        id="authMessage"
+        class="auth-message"
+    ></div>
+
+
+    <!--
+    |--------------------------------------------------------------------------
+    | LOGIN
+    |--------------------------------------------------------------------------
+    -->
+
+    <form
+        id="loginForm"
+        class="active"
+    >
+
+        <div class="field">
+
+            <label for="loginEmail">
+                Email
+            </label>
+
+            <div class="input-shell">
+
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                >
+
+                    <rect
+                        x="3"
+                        y="5"
+                        width="18"
+                        height="14"
+                        rx="2"
+                    />
+
+                    <path
+                        d="m3 7 9 6 9-6"
+                    />
+
+                </svg>
+
+                <input
+                    id="loginEmail"
+                    type="email"
+                    placeholder="you@example.com"
+                    autocomplete="email"
+                    required
+                >
+
+            </div>
+
+        </div>
+
+
+        <div class="field">
+
+            <label for="loginPassword">
+                Password
+            </label>
+
+            <div class="input-shell">
+
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                >
+
+                    <rect
+                        x="4"
+                        y="11"
+                        width="16"
+                        height="9"
+                        rx="2"
+                    />
+
+                    <path
+                        d="M8 11V7a4 4 0 0 1 8 0v4"
+                    />
+
+                </svg>
+
+                <input
+                    id="loginPassword"
+                    type="password"
+                    placeholder="Your password"
+                    autocomplete="current-password"
+                    required
+                >
+
+            </div>
+
+        </div>
+
+
+        <!--
+        |--------------------------------------------------------------------------
+        | Forgot password
+        |--------------------------------------------------------------------------
+        -->
+
+        <div class="login-options">
+
+            <a
+                href="/forgot-password.html"
+                class="link"
+            >
+                Forgot password?
+            </a>
+
+        </div>
+
+
+        <button
+            type="submit"
+            class="submit-btn"
+        >
+            Sign In
+        </button>
+
+    </form>
+
+
+    <!--
+    |--------------------------------------------------------------------------
+    | SIGNUP
+    |--------------------------------------------------------------------------
+    -->
+
+    <form
+        id="signupForm"
+    >
+
+        <div class="field">
+
+            <label for="signupName">
+                Full name
+            </label>
+
+            <div class="input-shell">
+
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                >
+
+                    <circle
+                        cx="12"
+                        cy="8"
+                        r="4"
+                    />
+
+                    <path
+                        d="M4 21c0-4 3.5-7 8-7s8 3 8 7"
+                    />
+
+                </svg>
+
+                <input
+                    id="signupName"
+                    type="text"
+                    placeholder="Your full name"
+                    autocomplete="name"
+                    required
+                >
+
+            </div>
+
+        </div>
+
+
+        <div class="field">
+
+            <label for="signupEmail">
+                Email
+            </label>
+
+            <div class="input-shell">
+
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                >
+
+                    <rect
+                        x="3"
+                        y="5"
+                        width="18"
+                        height="14"
+                        rx="2"
+                    />
+
+                    <path
+                        d="m3 7 9 6 9-6"
+                    />
+
+                </svg>
+
+                <input
+                    id="signupEmail"
+                    type="email"
+                    placeholder="you@example.com"
+                    autocomplete="email"
+                    required
+                >
+
+            </div>
+
+        </div>
+
+
+        <div class="field">
+
+            <label for="signupPassword">
+                Password
+            </label>
+
+            <div class="input-shell">
+
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                >
+
+                    <rect
+                        x="4"
+                        y="11"
+                        width="16"
+                        height="9"
+                        rx="2"
+                    />
+
+                    <path
+                        d="M8 11V7a4 4 0 0 1 8 0v4"
+                    />
+
+                </svg>
+
+                <input
+                    id="signupPassword"
+                    type="password"
+                    placeholder="Create a password"
+                    autocomplete="new-password"
+                    required
+                >
+
+            </div>
+
+            <div class="password-help">
+
+                Minimum 8 characters with at least
+                one letter and one number.
+
+            </div>
+
+        </div>
+
+
+        <div class="field">
+
+            <label for="signupConfirmPassword">
+                Confirm password
+            </label>
+
+            <div class="input-shell">
+
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                >
+
+                    <rect
+                        x="4"
+                        y="11"
+                        width="16"
+                        height="9"
+                        rx="2"
+                    />
+
+                    <path
+                        d="M8 11V7a4 4 0 0 1 8 0v4"
+                    />
+
+                </svg>
+
+                <input
+                    id="signupConfirmPassword"
+                    type="password"
+                    placeholder="Confirm your password"
+                    autocomplete="new-password"
+                    required
+                >
+
+            </div>
+
+        </div>
+
+
+        <label class="checkbox-row">
+
+            <input
+                id="terms"
+                type="checkbox"
+                required
+            >
+
+            <span>
+                I agree to the Terms and Privacy Policy.
+            </span>
+
+        </label>
+
+
+        <button
+            type="submit"
+            class="submit-btn"
+        >
+            Create Account
+        </button>
+
+    </form>
+
+
+</div>
+
+
+<script>
+
+/*
+|--------------------------------------------------------------------------
+| Elements
+|--------------------------------------------------------------------------
+*/
+
+const loginTab =
+    document.getElementById("loginTab");
+
+const signupTab =
+    document.getElementById("signupTab");
+
+const loginForm =
+    document.getElementById("loginForm");
+
+const signupForm =
+    document.getElementById("signupForm");
+
+const authMessage =
+    document.getElementById("authMessage");
+
+
+/*
+|--------------------------------------------------------------------------
+| Show message
+|--------------------------------------------------------------------------
+*/
+
+function showMessage(
+    message,
+    type = "error"
+) {
+
+    authMessage.textContent =
+        message;
+
+    authMessage.className =
+        `auth-message ${type}`;
+
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Clear message
+|--------------------------------------------------------------------------
+*/
+
+function clearMessage() {
+
+    authMessage.textContent = "";
+
+    authMessage.className =
+        "auth-message";
+
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Switch to login
+|--------------------------------------------------------------------------
+*/
+
+loginTab.addEventListener(
+    "click",
+    () => {
+
+        loginTab.classList.add(
+            "active"
+        );
+
+        signupTab.classList.remove(
+            "active"
+        );
+
+        loginForm.classList.add(
+            "active"
+        );
+
+        signupForm.classList.remove(
+            "active"
+        );
+
+        clearMessage();
+
+    }
+);
+
+
+/*
+|--------------------------------------------------------------------------
+| Switch to signup
+|--------------------------------------------------------------------------
+*/
+
+signupTab.addEventListener(
+    "click",
+    () => {
+
+        signupTab.classList.add(
+            "active"
+        );
+
+        loginTab.classList.remove(
+            "active"
+        );
+
+        signupForm.classList.add(
+            "active"
+        );
+
+        loginForm.classList.remove(
+            "active"
+        );
+
+        clearMessage();
+
+    }
+);
+
+
+/*
+|--------------------------------------------------------------------------
+| LOGIN
+|--------------------------------------------------------------------------
+*/
+
+loginForm.addEventListener(
+    "submit",
+    async (event) => {
+
+        event.preventDefault();
+
+        clearMessage();
+
+        const button =
+            loginForm.querySelector(
+                "button[type='submit']"
+            );
+
+        button.disabled = true;
+
+        button.textContent =
+            "Signing in...";
+
+
+        try {
+
+            const response =
+                await fetch(
+                    "/api/auth/login",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json",
+                        },
+
+                        credentials: "include",
+
+                        body: JSON.stringify({
+
+                            email:
+                                document
+                                    .getElementById(
+                                        "loginEmail"
+                                    )
+                                    .value,
+
+                            password:
+                                document
+                                    .getElementById(
+                                        "loginPassword"
+                                    )
+                                    .value,
+
+                        }),
+
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                showMessage(
+                    data.message ||
+                    "Invalid email or password."
+                );
+
+                return;
+
+            }
+
+
+            /*
+             * Authentication cookie has now
+             * been created by the server.
+             *
+             * Redirect to practice.
+             */
+
+            window.location.href =
+                data.redirect ||
+                "/practice";
+
+
+        } catch (error) {
+
+            console.error(
+                "Login error:",
+                error
+            );
+
+            showMessage(
+                "Unable to connect to the server."
+            );
+
+        } finally {
+
+            button.disabled = false;
+
+            button.textContent =
+                "Sign In";
+
+        }
+
+    }
+);
+
+
+/*
+|--------------------------------------------------------------------------
+| SIGNUP
+|--------------------------------------------------------------------------
+*/
+
+signupForm.addEventListener(
+    "submit",
+    async (event) => {
+
+        event.preventDefault();
+
+        clearMessage();
+
+        const fullName =
+            document
+                .getElementById(
+                    "signupName"
+                )
+                .value
+                .trim();
+
+        const email =
+            document
+                .getElementById(
+                    "signupEmail"
+                )
+                .value
+                .trim();
+
+        const password =
+            document
+                .getElementById(
+                    "signupPassword"
+                )
+                .value;
+
+        const confirmPassword =
+            document
+                .getElementById(
+                    "signupConfirmPassword"
+                )
+                .value;
+
+        const terms =
+            document.getElementById(
+                "terms"
+            ).checked;
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Frontend validation
+        |--------------------------------------------------------------------------
+        */
+
+        if (
+            password !==
+            confirmPassword
+        ) {
+
+            showMessage(
+                "Passwords do not match."
+            );
+
+            return;
+
+        }
+
+
+        if (!terms) {
+
+            showMessage(
+                "Please agree to the Terms and Privacy Policy."
+            );
+
+            return;
+
+        }
+
+
+        const button =
+            signupForm.querySelector(
+                "button[type='submit']"
+            );
+
+        button.disabled = true;
+
+        button.textContent =
+            "Creating account...";
+
+
+        try {
+
+            const response =
+                await fetch(
+                    "/api/auth/signup",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json",
+                        },
+
+                        credentials: "include",
+
+                        body: JSON.stringify({
+
+                            fullName,
+
+                            email,
+
+                            password,
+
+                        }),
+
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                showMessage(
+                    data.message ||
+                    "Unable to create account."
+                );
+
+                return;
+
+            }
+
+
+            /*
+             * Signup automatically logs the user in.
+             *
+             * The server has already created
+             * the authentication cookie.
+             */
+
+            window.location.href =
+                data.redirect ||
+                "/practice";
+
+
+        } catch (error) {
+
+            console.error(
+                "Signup error:",
+                error
+            );
+
+            showMessage(
+                "Unable to connect to the server."
+            );
+
+        } finally {
+
+            button.disabled = false;
+
+            button.textContent =
+                "Create Account";
+
+        }
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>
+```
